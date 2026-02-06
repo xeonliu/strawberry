@@ -911,6 +911,13 @@ jobs:
         working-directory: build
         run: make dmg
 
+      - name: Upload artifacts
+        if: github.repository != 'strawberrymusicplayer/strawberry'
+        uses: actions/upload-artifact@v6
+        with:
+          name: macos-${{matrix.runner}}-${{matrix.buildtype}}
+          path: build/*.dmg
+
       - name: SSH Setup
         if: github.repository == 'strawberrymusicplayer/strawberry' && (github.event_name == 'release' || (github.event_name == 'push' && github.event.pull_request.head.repo.fork == false && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/ci' || github.ref == 'refs/heads/macos')))
         uses: shimataro/ssh-key-action@v2
